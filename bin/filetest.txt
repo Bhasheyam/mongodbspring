@@ -1,0 +1,22 @@
+[
+{
+    "id": "E01",
+    "employeename" : "first",
+    "deptname": "CS"
+},
+{
+    "id": "E02",
+    "employeename" : "first1",
+    "deptname": "CS"
+},
+{
+    "id": "E02",
+    "employeename" : "first2",
+    "deptname": "CS"
+},
+{
+    "id": "E04",
+    "employeename" : "first3",
+    "deptname": "CS"
+}
+]
