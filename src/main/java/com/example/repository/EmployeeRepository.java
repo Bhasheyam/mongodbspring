@@ -6,9 +6,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.example.user.Employee;
 
-public interface EmployeeRepository extends MongoRepository<Employee, String>{
+public interface EmployeeRepository extends MongoRepository< Employee, String >
+{
 	
-	public List<Employee> findByEmployeename(String employeename);
+	public List<Employee> findByEmployeename( String employeename );
 
 
 }

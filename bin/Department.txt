@@ -1,0 +1,24 @@
+[
+{
+"deptname" : "HR"
+},
+{
+"deptname" : "Manager"
+},
+{
+"deptname" : "Manager"
+},
+{
+"deptname" : "Developer"
+},
+{
+"deptname" : "Developer"
+},
+{
+"deptname" : "Sales"
+},
+{
+"deptname" : "Recuirment"
+}
+
+]

@@ -1,0 +1,30 @@
+[
+{
+"employeename":"Boss",
+"deptname" : "HR"
+},
+{
+"employeename":"Krishnan",
+"deptname" : "Manager"
+},
+{
+"employeename":"Alex",
+"deptname" : "Manager"
+},
+{
+"employeename":"Rusell",
+"deptname" : "Developer"
+},
+{
+"employeename":"peter",
+"deptname" : "Developer"
+},
+{
+"employeename":"Bhasheyam",
+"deptname" : "Tester"
+},
+{
+"employeename":"Krishna",
+"deptname" : "Tester"
+}
+]

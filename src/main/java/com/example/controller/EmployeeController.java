@@ -13,7 +13,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +38,7 @@ import com.google.gson.Gson;
 
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping( "/employee" )
 public class EmployeeController 
 {
 	
@@ -50,18 +53,19 @@ public class EmployeeController
 
     
     
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void create(@RequestBody Employee emp) {
+    @RequestMapping( method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<String> create( @RequestBody Employee emp ) {
     	
     	//If department is not there
-    	if(deptartment.findByDeptname(emp.getDeptname()) == null)
+    	if(deptartment.findByDeptname( emp.getDeptname()) == null )
     	{
     		Department dept = new Department();
-    		dept.setDeptname(emp.getDeptname());
-    		deptartment.save(dept);
+    		dept.setDeptname( emp.getDeptname() );
+    		deptartment.save( dept );
     	}
     	
-    	employeerepository.save(emp);
+    	employeerepository.save( emp );
+        return new ResponseEntity<String>("Pushed in DB", HttpStatus.CREATED);
     }
   
     
@@ -70,21 +74,24 @@ public class EmployeeController
     
     
     
-    @RequestMapping(value = "/test") 
-    public String read1()
+    @RequestMapping( value = "/test" ) 
+    public ResponseEntity<String> read1()
     
     {
-        return "Working";
+    	HttpHeaders response = new HttpHeaders();
+    	response.setContentLength(10);
+        return new ResponseEntity<String>("Hello World", response, HttpStatus.CREATED);
     }
     
     
     
     
     
-    @RequestMapping(method = RequestMethod.GET) 
-    public List<Employee> readall()
+    @RequestMapping ( method = RequestMethod.GET ) 
+    public ResponseEntity<List<Employee>> readall()
     {
-    	return employeerepository.findAll();
+
+    	 return new ResponseEntity<List<Employee>>(employeerepository.findAll(), HttpStatus.OK); 
     }
     
     
@@ -92,9 +99,10 @@ public class EmployeeController
     
     
 
-    @RequestMapping(value = "/{id}") 
-    public Employee read(@PathVariable String id) {
-        return employeerepository.findOne(id);
+    @RequestMapping( value = "/{id}" ) 
+    public ResponseEntity<Employee> read( @PathVariable String id ) {
+        
+        return new ResponseEntity<Employee>(employeerepository.findOne( id ), HttpStatus.OK);
     }
     
     
@@ -102,15 +110,16 @@ public class EmployeeController
     
     
     @RequestMapping(value = "name/{employeename}") 
-    public List<Employee> readnames(@PathVariable String employeename) {
-        return employeerepository.findByEmployeename(employeename);
+    public ResponseEntity<List<Employee>> readnames(@PathVariable String employeename) {
+   
+        return new ResponseEntity<List<Employee>>(employeerepository.findByEmployeename(employeename), HttpStatus.OK); 
     }
     
     
     
     
     @RequestMapping(value = "/readfile",method = RequestMethod.POST)
-    public void readfromfile(@RequestParam("file") MultipartFile file,RedirectAttributes redirectAttributes) throws IOException
+    public void readfromfile() throws IOException
     {
     	ClassLoader classLoader = getClass().getClassLoader();
     	InputStream inputStream = classLoader.getResourceAsStream("Employee.txt");
@@ -118,6 +127,8 @@ public class EmployeeController
     	ObjectMapper mapper = new ObjectMapper();
     	List<Employee> employeelist = mapper.readValue(data, new TypeReference<List<Employee>>(){});
     	employeerepository.save(employeelist);
+    	
+    	
     }
     
     
@@ -127,7 +138,7 @@ public class EmployeeController
     @RequestMapping(value ="/storetofile")
     public void storetofile() throws IOException
     {
-    	FileOutputStream fos = new FileOutputStream("employeefromdb.txt");
+    	FileOutputStream fos = new FileOutputStream("Employeefromdb.txt");
     	ObjectOutputStream oos = new ObjectOutputStream(fos);
     	String employeelist =  new Gson().toJson(employeerepository.findAll());
     		 oos.writeObject(employeelist);
